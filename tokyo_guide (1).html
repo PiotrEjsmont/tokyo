@@ -1,0 +1,669 @@
+            <div class="map-container">
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇯🇵 Tokio Adventures - Pierwsze 2 dni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 2deg, transparent 4deg);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .day-section {
+            padding: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .day-section:last-child {
+            border-bottom: none;
+        }
+
+        .day-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .day-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-right: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .day-info h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .day-info p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .day-summary {
+            font-size: 0.95em !important;
+            opacity: 0.85 !important;
+            margin-top: 8px !important;
+        }
+
+        .map-container {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .map-container h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .map-embed {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .location-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .location-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #4facfe;
+        }
+
+        .location-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.3));
+        }
+
+        .meiji-shrine { background-image: url('https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=500&h=300&fit=crop'); }
+        .yoyogi-park { background-image: url('https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=500&h=300&fit=crop'); }
+        .omotesando { background-image: url('https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=500&h=300&fit=crop'); }
+        .shibuya-sky { background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500&h=300&fit=crop'); }
+        .teamlab { background-image: url('https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=500&h=300&fit=crop'); }
+        .rainbow-bridge { background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500&h=300&fit=crop'); }
+        .circus { background-image: url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500&h=300&fit=crop'); }
+
+        .location-content {
+            padding: 25px;
+        }
+
+        .location-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .location-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .location-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .link-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .link-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            border: 1px solid #e9ecef;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .review-count {
+            color: #666;
+            font-size: 0.8em;
+        }
+
+        .timeline {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 4px solid #4facfe;
+        }
+
+        .timeline h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .timeline-time {
+            background: #4facfe;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .special-note {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            color: white;
+        }
+
+        .special-note h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .music-section {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .music-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .music-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .music-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .day-section {
+                padding: 20px;
+            }
+
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day-title {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .day-number {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .music-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .map-embed {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🇯🇵 Tokio Adventures</h1>
+                <p>Pierwsze 2 dni niezapomnianej przygody</p>
+            </div>
+        </div>
+
+        <div class="day-section">
+            <div class="day-title">
+                <div class="day-number">1</div>
+                <div class="day-info">
+                    <h2>Piątek, 3 października</h2>
+                    <p>Pierwszy dzień - kultura i tradycja</p>
+                    <p class="day-summary">Po lądowaniu zanurzymy się w spokojną atmosferę tradycyjnego Tokio. Od świętego Meiji Shrine, przez relaks w Yoyogi Park, aż po elegancką architekturę Omotesando i energię Shibuya - idealne wprowadzenie w japońską kulturę i nowoczesność.</p>
+                </div>
+            </div>
+
+<div class="map-container">
+    <h3>🗺️ Mapa dnia 1</h3>
+    <img src="03.10.png" alt="Mapa" class="map-embed" loading="lazy">
+    <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+        📍 Trasa: Hotel Hillarys Akasaka → Meiji Shrine → Yoyogi Park → Omotesando → Shibuya Sky
+    </p>
+</div>
+
+<style>
+  .map-embed {
+    max-width: 100%;   /* obrazek dopasuje się do szerokości kontenera */
+    height: auto;      /* zachowa proporcje */
+    display: block;    /* brak dziwnych odstępów */
+    border-radius: 8px; /* opcjonalnie zaokrąglenie rogów */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* opcjonalnie cień dla efektu */
+  }
+
+  .map-container {
+    max-width: 700px;   /* ograniczenie szerokości całości, np. 700px */
+    margin: 20px auto;  /* wyśrodkowanie na stronie */
+    text-align: center; /* nagłówek i podpis będą na środku */
+  }
+</style>
+
+            <div class="timeline">
+                <h3>⏰ Harmonogram dnia</h3>
+                <div class="timeline-item">
+                    <div class="timeline-time">12:30</div>
+                    <div>Lądowanie w Tokio ✈️</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">14:00</div>
+                    <div>Transfer do Hotel Hillarys Akasaka 🏨</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">16:00</div>
+                    <div>Meiji Shrine przed zachodem słońca 🌅</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">17:30</div>
+                    <div>Spacer po Yoyogi Park 🌸</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">19:00</div>
+                    <div>Eksploracja Aoyama/Omotesando ✨</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20:30</div>
+                    <div>Shibuya Sky & Crossing 🌃</div>
+                </div>
+            </div>
+
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-image meiji-shrine"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">⛩️ Meiji Shrine</h3>
+                        <p class="location-description">Spokojne sanktuarium w sercu Tokio, otoczone pięknym lasem. Idealne miejsce na pierwszy kontakt z japońską duchowością i tradycją.</p>
+                        <div class="location-links">
+                            <div class="rating">
+                                <span class="stars">⭐ 4.2</span>
+                                <span class="review-count">(47,000+ recenzji)</span>
+                            </div>
+                            <a href="https://goo.gl/maps/meijijingu" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image yoyogi-park"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">🌳 Yoyogi Park</h3>
+                        <p class="location-description">Jeden z największych parków w Tokio, miejsce spotkań lokalnych artystów, cosplayerów i fanów kultury pop. Idealne na relaks po długiej podróży.</p>
+                        <div class="location-links">
+                            <div class="rating">
+                                <span class="stars">⭐ 4.1</span>
+                                <span class="review-count">(18,000+ recenzji)</span>
+                            </div>
+                            <a href="https://goo.gl/maps/yoyogipark" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image omotesando"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">✨ Aoyama/Omotesando</h3>
+                        <p class="location-description">Elegancka dzielnica z ekskluzywnych sklepami, restauracjami i kawiarniami. Architektura światowej klasy i unikalny design na każdym kroku.</p>
+                        <div class="location-links">
+                            <a href="https://visit-omotesando.com/" class="link-btn" target="_blank">🌐 Przewodnik</a>
+                            <a href="https://goo.gl/maps/omotesando" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image shibuya-sky"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">🌃 Shibuya Sky & Crossing</h3>
+                        <p class="location-description">Spektakularna platforma widokowa na 46. piętrze z niesamowitymi widokami na Tokio oraz słynne skrzyżowanie Shibuya - serce młodzieżowego Tokio pulsujące energią neonów.</p>
+                        <div class="location-links">
+                            <div class="rating">
+                                <span class="stars">⭐ 4.3</span>
+                                <span class="review-count">(12,000+ recenzji)</span>
+                            </div>
+                            <a href="https://goo.gl/maps/shibuyasky" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-section">
+            <div class="day-title">
+                <div class="day-number">2</div>
+                <div class="day-info">
+                    <h2>Sobota, 4 października</h2>
+                    <p>Dzień technologii i muzyki w Odaiba</p>
+                    <p class="day-summary">Przenosimy się na futurystyczną wyspę Odaiba - sztuczną wyspę w Zatoce Tokijskiej, która łączy nowoczesną technologię z rozrywką. Dzień pełen cyfrowej sztuki teamLab i kulminacja w legendarnym klubie Circus.</p>
+                </div>
+            </div>
+
+<div class="map-container">
+    <h3>🗺️ Mapa dnia 2</h3>
+    <img src="04.10.png" alt="Mapa" class="map-embed" loading="lazy">
+</div>
+
+<style>
+  .map-embed {
+    max-width: 100%;   /* obrazek dopasuje się do szerokości kontenera */
+    height: auto;      /* zachowa proporcje */
+    display: block;    /* brak dziwnych odstępów */
+    border-radius: 8px; /* opcjonalnie zaokrąglenie rogów */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* opcjonalnie cień dla efektu */
+  }
+
+  .map-container {
+    max-width: 700px;   /* ograniczenie szerokości całości, np. 700px */
+    margin: 20px auto;  /* wyśrodkowanie na stronie */
+    text-align: center; /* nagłówek i podpis będą na środku */
+  }
+</style>
+
+            <div class="timeline">
+                <h3>⏰ Harmonogram dnia</h3>
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div>Podróż do Odaiba 🚆</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">11:00</div>
+                    <div>teamLab Borderless/Planets 🎨</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">15:00</div>
+                    <div>Spacer po Rainbow Bridge 🌈</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">18:00</div>
+                    <div>Circus 10th Anniversary Festival 🎵</div>
+                </div>
+            </div>
+
+            <div class="special-note">
+                <h4>🏝️ Odaiba - futurystyczna wyspa</h4>
+                <p>Odaiba to sztuczna wyspa w Zatoce Tokijskiej, stworzona w latach 80. jako symbol nowoczesności Japonii. Dziś to centrum rozrywki i technologii z spektakularnymi widokami na panoramę Tokio, centrami handlowymi, muzeami i plażami. Idealne miejsce, gdzie przyszłość spotyka się z zabawą!</p>
+            </div>
+
+            <div class="location-grid">
+                <div class="location-card">
+                    <div class="location-image teamlab"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">🎨 teamLab</h3>
+                        <p class="location-description">Rewolucyjne muzeum sztuki cyfrowej, gdzie granice między sztuką i technologią znikają. Interaktywne instalacje, które reagują na Twoją obecność.</p>
+                        <div class="location-links">
+                            <div class="rating">
+                                <span class="stars">⭐ 4.3</span>
+                                <span class="review-count">(15,000+ recenzji)</span>
+                            </div>
+                            <a href="https://goo.gl/maps/teamlab" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image rainbow-bridge"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">🌈 Rainbow Bridge</h3>
+                        <p class="location-description">Ikoniczny most łączący centrum Tokio z Odaibą. Spektakularne widoki na zatokę tokijską i panoramę miasta, szczególnie piękne o zachodzie słońca.</p>
+                        <div class="location-links">
+                            <div class="rating">
+                                <span class="stars">⭐ 4.2</span>
+                                <span class="review-count">(8,500+ recenzji)</span>
+                            </div>
+                            <a href="https://goo.gl/maps/rainbowbridge" class="link-btn" target="_blank">📍 Mapa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-image circus"></div>
+                    <div class="location-content">
+                        <h3 class="location-title">🎵 Circus 10th Anniversary</h3>
+                        <p class="location-description">Jubileuszowa impreza tokijskiego klubu Circus</p>
+                        <div class="location-links">
+                            <a href="https://www.residentadvisor.net/events" class="link-btn" target="_blank">🎫 Resident Advisor</a>
+                            <a href="#" class="link-btn" onclick="alert('Lokalizacja klubu Circus')">📍 Venue</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-section">
+                <h3>🎵 CIRCUS Tokyo's 10th anniversary event </h3>
+                
+                <div class="music-links">
+                    <a href="https://www.youtube.com/watch?v=HNxMnsauTgA" class="music-btn" target="_blank">🎧 Vegyn - Makeshift Tourniquet</a>
+                    <a href="https://www.youtube.com/watch?v=MoOAowW0bx4" class="music-btn" target="_blank">📺 DJ Q - set</a>
+                    <a href="https://www.youtube.com/watch?v=J5yC26SztPY" class="music-btn" target="_blank">🎤 DJ Seinfeld - set</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<style>
+  .music-links {
+    display: flex;       /* linki obok siebie */
+    gap: 6px;            /* odstęp między linkami */
+    flex-wrap: nowrap;   /* nie łamie do nowej linii */
+  }
+
+  .music-btn {
+    font-size: 0.7em;   /* mniejsza czcionka */
+    white-space: nowrap; /* każdy link w jednej linijce */
+    text-decoration: none;
+  }
+</style>
+
+    <script>
+        // Dodaj interaktywną animację do kart
+        document.querySelectorAll('.location-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Dodaj płynne przewijanie do sekcji dni
+        document.querySelectorAll('.timeline-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-30px)';
+            item.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, index * 200);
+        });
+
+        // Prostą interakcję z przyciskami muzycznymi
+        document.querySelectorAll('.music-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href === '#') {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.05)';
+                    }, 150);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
